@@ -60,6 +60,8 @@ function init (el) {
 		fragmentShader: FragmentShader
 	})
 
+	console.log(/xxx/, geometry.toJSON())
+
 	particles = new Points(geometry, material)
 	scene.add(particles)
 	renderer = new WebGLRenderer({ antialias: true })
@@ -68,7 +70,7 @@ function init (el) {
 	$el.appendChild(renderer.domElement)
 
 	window.addEventListener('resize', onWindowResize, false)
-		animate()
+	animate()
 }
 
 function onWindowResize () {
@@ -93,7 +95,7 @@ function render () {
 		}
 	}
 	particles.geometry.attributes.position.needsUpdate = true
-	particles.geometry.attributes.scale.needsUpdate = true
+	// particles.geometry.attributes.scale.needsUpdate = true
 	renderer.render(scene, camera)
 	count += 0.1
 }

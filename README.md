@@ -27,3 +27,6 @@ npm run lint
 
 ### Customize configuration
 See [Configuration Reference](https://cli.vuejs.org/config/).
+
+https://www.techbrood.com
+https://github.com/mrdoob/three.js/blob/master/examples/webgl_points_waves.html
