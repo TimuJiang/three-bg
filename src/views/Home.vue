@@ -2,9 +2,18 @@
 	.home
 </template>
 <script>
-	import * as THREE from 'three'
-	import DemoShader from '../shader/demo.shader'
-	console.log(THREE)
+	import {
+		PerspectiveCamera,
+		Scene,
+		BufferGeometry,
+		ShaderMaterial,
+		BufferAttribute,
+		Color,
+		Points,
+		WebGLRenderer
+	} from 'three'
+	import VertexShader from '../shader/demo.vertex.glsl'
+	import FragmentShader from '../shader/demo.fragment.glsl'
 	const SEPARATION = 100
 	const AMOUNTX = 50
 	const AMOUNTY = 50
@@ -12,8 +21,6 @@
 	let scene
 	let particles
 	let renderer
-	let mouseX = 0
-	let mouseY = 0
 	let count = 0
 	export default {
 		name: 'Home',
@@ -22,12 +29,12 @@
 			return {}
 		},
 		mounted () {
-			camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 1, 10000)
+			camera = new PerspectiveCamera(75, window.innerWidth / window.innerHeight, 1, 10000)
 			camera.position.z = 3000
 			camera.position.y = 300
 			camera.position.x = 300
 
-			scene = new THREE.Scene()
+			scene = new Scene()
 			camera.lookAt(scene.position)
 			let numParticles = AMOUNTX * AMOUNTY
 			let positions = new Float32Array(numParticles * 3)
@@ -44,20 +51,20 @@
 					j++
 				}
 			}
-			let geometry = new THREE.BufferGeometry()
-			geometry.addAttribute('position', new THREE.BufferAttribute(positions, 3))
-			geometry.addAttribute('scale', new THREE.BufferAttribute(scales, 1))
-			let material = new THREE.ShaderMaterial({
+			let geometry = new BufferGeometry()
+			geometry.addAttribute('position', new BufferAttribute(positions, 3))
+			geometry.addAttribute('scale', new BufferAttribute(scales, 1))
+			let material = new ShaderMaterial({
 				uniforms: {
-					color: { value: new THREE.Color(0xffffff) }
+					color: { value: new Color(0xffffff) }
 				},
-				vertexShader: DemoShader.vertexShader,
-				fragmentShader: DemoShader.fragmentShader
+				vertexShader: VertexShader,
+				fragmentShader: FragmentShader
 			})
 
-			particles = new THREE.Points(geometry, material)
+			particles = new Points(geometry, material)
 			scene.add(particles)
-			renderer = new THREE.WebGLRenderer({ antialias: true })
+			renderer = new WebGLRenderer({ antialias: true })
 			renderer.setPixelRatio(window.devicePixelRatio)
 			renderer.setSize(window.innerWidth, window.innerHeight)
 			this.$el.appendChild(renderer.domElement)
