@@ -26,6 +26,7 @@ function init (el) {
 		throw new Error('需要DMO挂载背景')
 	}
 	$el = el
+	console.log('init')
 	camera = new PerspectiveCamera(75, window.innerWidth / window.innerHeight, 1, 10000)
 	camera.position.z = 3000
 	camera.position.y = 300
@@ -100,4 +101,8 @@ function render () {
 function animate () {
 	requestAnimationFrame(animate)
 	render()
+}
+
+export default {
+	init
 }
